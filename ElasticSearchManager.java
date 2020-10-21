@@ -17,18 +17,6 @@ import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
-/**
- * For remote machine: SERVER = "http://34.202.206.222:8080"
- * -------------------------------------------------------------------------------------------------
- * curl -XDELETE 'http://34.202.206.222:8080/INDEX' - can be used to delete ALL objects on the server
- * (items, users, and bids) at that index
- * view an item at: http://34.202.206.222:8080/INDEX/items/item_id
- * view a user at: http://34.202.206.222:8080/INDEX/users/user_id
- * view a bid at: http://34.202.206.222:8080/INDEX/bids/bid_id
- * Where INDEX is replaced with the random number string you generate as per the assignment
- * instructions. Note: item_ids and user_ids are printed to the log (See the Android Monitor)
- * as each user/item is added.
- */
 
 /**
  * Specifically, you will need to implement the following methods in the ElasticSearchManager class:
@@ -268,7 +256,7 @@ public class ElasticSearchManager {
             Boolean success = false;
             Bid bid = params[0];
 
-            String id = bid.getBidId(); // Explicitly set the id to match the locally generated id
+            String id = bid.getBidId();
             Index index = new Index.Builder(bid).index(INDEX).type(BID_TYPE).id(id).build();
             try {
                 DocumentResult execute = client.execute(index);
@@ -288,9 +276,6 @@ public class ElasticSearchManager {
     }
 
 
-    /**
-     * Delete bid from remote server using bid_id
-     */
     public static class RemoveBidTask extends AsyncTask<Bid,Void,Boolean> {
 
         @Override
@@ -316,7 +301,7 @@ public class ElasticSearchManager {
     }
 
 
-    // If no client, add one
+  
     private static void verifyConfig() {
         if(client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder(SERVER);
